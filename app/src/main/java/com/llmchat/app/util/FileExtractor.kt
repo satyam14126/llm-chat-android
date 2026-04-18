@@ -58,8 +58,8 @@ class FileExtractor @Inject constructor(
     private fun extractPdf(uri: Uri): String {
         return try {
             context.contentResolver.openInputStream(uri)?.use { stream ->
-                val pdfDoc = org.apache.pdfbox.pdmodel.PDDocument.load(stream)
-                val stripper = org.apache.pdfbox.text.PDFTextStripper()
+                val pdfDoc = com.tom_roush.pdfbox.pdmodel.PDDocument.load(stream)
+                val stripper = com.tom_roush.pdfbox.text.PDFTextStripper()
                 val text = stripper.getText(pdfDoc)
                 pdfDoc.close()
                 text

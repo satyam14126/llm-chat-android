@@ -83,6 +83,7 @@ dependencies {
 
     implementation(libs.coil.compose)
     implementation(libs.markwon.core)
+    implementation("com.tom-roush:pdfbox-android:2.0.27.0")
 
     debugImplementation(libs.androidx.ui.tooling)
 }
