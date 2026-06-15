@@ -77,17 +77,8 @@ fun CodeBlockCard(
         ) {
             // Using MarkdownMessage for syntax highlighting within the card
             MarkdownMessage(
-                content = "```$language\n$code\n```",
-                color = Color.White.toArgb()
+                content = "```$language\n$code\n```"
             )
         }
     }
-}
-
-// Extension to convert Compose Color to ARGB Int
-private fun Color.toArgb(): Int {
-    return (this.alpha * 255.0f + 0.5f).toInt() shl 24 or
-            ((this.red * 255.0f + 0.5f).toInt() shl 16) or
-            ((this.green * 255.0f + 0.5f).toInt() shl 8) or
-            (this.blue * 255.0f + 0.5f).toInt()
 }

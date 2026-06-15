@@ -151,9 +151,7 @@ fun MessageBubble(
                         )
                     } else {
                         MarkdownMessage(
-                            content = message.content,
-                            color = if (message.isError) MaterialTheme.colorScheme.onErrorContainer.toArgb()
-                                    else MaterialTheme.colorScheme.onSurface.toArgb()
+                            content = message.content
                         )
                     }
                 }
@@ -249,12 +247,7 @@ fun MessageBubble(
     }
 }
 
-private fun Color.toArgb(): Int {
-    return (this.alpha * 255.0f + 0.5f).toInt() shl 24 or
-            ((this.red * 255.0f + 0.5f).toInt() shl 16) or
-            ((this.green * 255.0f + 0.5f).toInt() shl 8) or
-            (this.blue * 255.0f + 0.5f).toInt()
-}
+
 
 @Composable
 fun StreamingMessageBubble(content: String) {
@@ -305,8 +298,7 @@ fun StreamingMessageBubble(content: String) {
         ) {
             Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)) {
                 MarkdownMessage(
-                    content = content + if (alpha > 0.5f) " ▌" else "  ",
-                    color = MaterialTheme.colorScheme.onSurface.toArgb()
+                    content = content + if (alpha > 0.5f) " ▌" else "  "
                 )
             }
         }
