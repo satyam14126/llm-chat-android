@@ -21,7 +21,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             val settingsViewModel: SettingsViewModel = hiltViewModel()
             val darkMode by settingsViewModel.darkMode.collectAsState()
-            LLMChatTheme(darkTheme = darkMode ?: isSystemInDarkTheme()) {
+            val themeMode by settingsViewModel.themeMode.collectAsState()
+            LLMChatTheme(
+                darkTheme = darkMode ?: isSystemInDarkTheme(),
+                themeMode = themeMode
+            ) {
                 AppNavigation()
             }
         }

@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.llmchat.app.domain.model.ProviderProfile
 import com.llmchat.app.ui.common.SectionHeader
+import com.llmchat.app.ui.theme.ThemeMode
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -24,8 +25,12 @@ fun SettingsScreen(
 ) {
     val profiles by viewModel.profiles.collectAsState()
     val darkMode by viewModel.darkMode.collectAsState()
+    val themeMode by viewModel.themeMode.collectAsState()
+    val enableAnimations by viewModel.enableAnimations.collectAsState()
+    val autoScroll by viewModel.autoScroll.collectAsState()
     var showAddProfile by remember { mutableStateOf(false) }
     var editProfile by remember { mutableStateOf<ProviderProfile?>(null) }
+    var showThemeMenu by remember { mutableStateOf(false) }
 
     if (showAddProfile || editProfile != null) {
         ProviderProfileDialog(
@@ -61,6 +66,7 @@ fun SettingsScreen(
                 .padding(padding)
         ) {
             item { SectionHeader("Appearance") }
+            
             item {
                 Card(
                     modifier = Modifier
@@ -82,6 +88,104 @@ fun SettingsScreen(
                         Switch(
                             checked = darkMode ?: false,
                             onCheckedChange = { viewModel.setDarkMode(it) }
+                        )
+                    }
+                }
+            }
+
+            item {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                    )
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(Icons.Default.Palette, null)
+                            Spacer(Modifier.width(12.dp))
+                            Text("Theme", modifier = Modifier.weight(1f))
+                            Box {
+                                Button(onClick = { showThemeMenu = true }) {
+                                    Text(themeMode.name.lowercase().replaceFirstChar { it.uppercase() })
+                                }
+                                DropdownMenu(
+                                    expanded = showThemeMenu,
+                                    onDismissRequest = { showThemeMenu = false }
+                                ) {
+                                    ThemeMode.values().forEach { mode ->
+                                        DropdownMenuItem(
+                                            text = { Text(mode.name.lowercase().replaceFirstChar { it.uppercase() }) },
+                                            onClick = {
+                                                viewModel.setThemeMode(mode)
+                                                showThemeMenu = false
+                                            },
+                                            leadingIcon = {
+                                                if (mode == themeMode) {
+                                                    Icon(Icons.Default.Check, null)
+                                                }
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            item {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                    )
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(Icons.Default.Animation, null)
+                        Spacer(Modifier.width(12.dp))
+                        Text("Enable Animations", modifier = Modifier.weight(1f))
+                        Switch(
+                            checked = enableAnimations,
+                            onCheckedChange = { viewModel.setEnableAnimations(it) }
+                        )
+                    }
+                }
+            }
+
+            item {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                    )
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(Icons.Default.ArrowDownward, null)
+                        Spacer(Modifier.width(12.dp))
+                        Text("Auto-scroll to Latest", modifier = Modifier.weight(1f))
+                        Switch(
+                            checked = autoScroll,
+                            onCheckedChange = { viewModel.setAutoScroll(it) }
                         )
                     }
                 }
