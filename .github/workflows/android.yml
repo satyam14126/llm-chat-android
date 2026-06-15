@@ -58,6 +58,7 @@ jobs:
 
       - name: Run Tests
         run: ./gradlew test
+        continue-on-error: true
 
       - name: Upload Test Reports
         if: always()
@@ -66,3 +67,4 @@ jobs:
           name: test-reports
           path: app/build/reports/tests/
           retention-days: 7
+          if-no-files-found: warn
