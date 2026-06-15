@@ -16,6 +16,9 @@ class ProviderRepository @Inject constructor(
     fun getAllProfiles(): Flow<List<ProviderProfile>> =
         dao.getAllProfiles().map { it.map { e -> e.toDomain() } }
 
+    fun getDefaultProfileFlow(): Flow<ProviderProfile?> =
+        dao.getDefaultProfileFlow().map { it?.toDomain() }
+
     suspend fun getProfileById(id: Long): ProviderProfile? =
         dao.getProfileById(id)?.toDomain()
 

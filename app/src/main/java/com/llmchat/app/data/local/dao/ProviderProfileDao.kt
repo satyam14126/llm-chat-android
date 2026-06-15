@@ -16,6 +16,9 @@ interface ProviderProfileDao {
     @Query("SELECT * FROM provider_profiles WHERE isDefault = 1 LIMIT 1")
     suspend fun getDefaultProfile(): ProviderProfileEntity?
 
+    @Query("SELECT * FROM provider_profiles WHERE isDefault = 1 LIMIT 1")
+    fun getDefaultProfileFlow(): Flow<ProviderProfileEntity?>
+
     @Insert
     suspend fun insertProfile(profile: ProviderProfileEntity): Long
 
