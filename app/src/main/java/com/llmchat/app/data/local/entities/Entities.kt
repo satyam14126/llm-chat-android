@@ -72,5 +72,8 @@ data class AttachedFileEntity(
     val mimeType: String,
     val extractedText: String,
     val fileSize: Long,
-    val addedAt: Long = System.currentTimeMillis()
+    val addedAt: Long = System.currentTimeMillis(),
+    val pageCount: Int? = null,
+    val thumbnailPath: String? = null,
+    val errorMessage: String? = null
 )

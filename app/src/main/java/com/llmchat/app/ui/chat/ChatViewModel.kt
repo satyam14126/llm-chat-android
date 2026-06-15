@@ -166,15 +166,17 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch {
             val result = fileExtractor.extractFromUri(uri)
             result.onSuccess { content ->
-                val file = AttachedFile(
+                val attachedFile = AttachedFile(
                     sessionId = sessionId,
                     fileName = content.fileName,
                     mimeType = content.mimeType,
                     extractedText = content.text,
-                    fileSize = content.fileSize
+                    fileSize = content.fileSize,
+                    pageCount = content.pageCount,
+                    errorMessage = content.errorMessage
                 )
-                val fileId = chatRepo.insertFile(file)
-                val savedFile = file.copy(id = fileId)
+                val fileId = chatRepo.insertFile(attachedFile)
+                val savedFile = attachedFile.copy(id = fileId)
                 _uiState.update { it.copy(pendingAttachments = it.pendingAttachments + savedFile) }
             }.onFailure { e ->
                 _uiState.update { it.copy(errorMessage = "Failed to read file: ${e.message}") }

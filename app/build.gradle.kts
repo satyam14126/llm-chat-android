@@ -11,6 +11,8 @@ android {
     namespace = "com.llmchat.app"
     compileSdk = 35
 
+
+
     signingConfigs {
         getByName("debug") {
             storeFile = file(System.getProperty("user.home") + "/.android/debug.keystore")
@@ -97,7 +99,13 @@ dependencies {
     implementation(libs.datastore.preferences)
 
     implementation(libs.coil.compose)
-    implementation(libs.markwon.core)
+        implementation(libs.markwon.core)
+    implementation(libs.markwon.html)
+    implementation(libs.markwon.ext.tables)
+    implementation(libs.markwon.ext.tasklist)
+    implementation(libs.markwon.syntax.highlight)
+    implementation(libs.prism4j)
+    implementation(libs.prism4j.bundler)
     implementation("com.tom-roush:pdfbox-android:2.0.27.0")
 
     debugImplementation(libs.androidx.ui.tooling)

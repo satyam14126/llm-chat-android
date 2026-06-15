@@ -53,7 +53,10 @@ data class AttachedFile(
     val mimeType: String,
     val extractedText: String,
     val fileSize: Long,
-    val addedAt: Long = System.currentTimeMillis()
+    val addedAt: Long = System.currentTimeMillis(),
+    val pageCount: Int? = null,
+    val thumbnailPath: String? = null,
+    val errorMessage: String? = null
 )
 
 fun ChatSessionEntity.toDomain() = ChatSession(
@@ -103,10 +106,12 @@ fun ProviderProfile.toEntity() = ProviderProfileEntity(
 
 fun AttachedFileEntity.toDomain() = AttachedFile(
     id = id, sessionId = sessionId, fileName = fileName, mimeType = mimeType,
-    extractedText = extractedText, fileSize = fileSize, addedAt = addedAt
+    extractedText = extractedText, fileSize = fileSize, addedAt = addedAt,
+    pageCount = pageCount, thumbnailPath = thumbnailPath, errorMessage = errorMessage
 )
 
 fun AttachedFile.toEntity() = AttachedFileEntity(
     id = id, sessionId = sessionId, fileName = fileName, mimeType = mimeType,
-    extractedText = extractedText, fileSize = fileSize, addedAt = addedAt
+    extractedText = extractedText, fileSize = fileSize, addedAt = addedAt,
+    pageCount = pageCount, thumbnailPath = thumbnailPath, errorMessage = errorMessage
 )

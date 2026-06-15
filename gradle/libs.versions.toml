@@ -18,8 +18,18 @@ serialization = "1.7.3"
 datastore = "1.1.1"
 coil = "2.7.0"
 markwon = "4.6.2"
+markwonHtml = "4.6.2"
+markwonTables = "4.6.2"
+markwonSyntaxHighlight = "4.6.2"
+prism4j = "0.2.0"
 
 [libraries]
+markwon-html = { group = "io.noties.markwon", name = "html", version.ref = "markwonHtml" }
+markwon-ext-tables = { group = "io.noties.markwon", name = "ext-tables", version.ref = "markwonTables" }
+markwon-ext-tasklist = { group = "io.noties.markwon", name = "ext-tasklist", version.ref = "markwonTables" }
+markwon-syntax-highlight = { group = "io.noties.markwon", name = "syntax-highlight", version.ref = "markwonSyntaxHighlight" }
+prism4j = { group = "io.noties.prism4j", name = "prism4j", version.ref = "prism4j" }
+prism4j-bundler = { group = "io.noties.prism4j", name = "prism4j-bundler", version.ref = "prism4j" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }

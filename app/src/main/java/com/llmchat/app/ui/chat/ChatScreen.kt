@@ -251,16 +251,21 @@ fun ChatScreen(
                     .weight(1f),
                 contentPadding = PaddingValues(vertical = 8.dp)
             ) {
-                items(uiState.messages, key = { it.id }) { message ->
-                    MessageBubble(
-                        message = message,
-                        onCopy = { /* handled in bubble */ },
-                        onEdit = { viewModel.editMessage(message.id, it) },
-                        onDelete = { viewModel.deleteMessage(message.id) },
-                        onRegenerate = if (message == uiState.messages.lastOrNull { it.role == MessageRole.ASSISTANT }) {
-                            viewModel::regenerateResponse
-                        } else null
-                    )
+                items(
+                    items = uiState.messages,
+                    key = { it.id }
+                ) { message ->
+                    key(message.id) {
+                        MessageBubble(
+                            message = message,
+                            onCopy = { /* handled in bubble */ },
+                            onEdit = { viewModel.editMessage(message.id, it) },
+                            onDelete = { viewModel.deleteMessage(message.id) },
+                            onRegenerate = if (message == uiState.messages.lastOrNull { it.role == MessageRole.ASSISTANT }) {
+                                viewModel::regenerateResponse
+                            } else null
+                        )
+                    }
                 }
 
                 // Streaming bubble
@@ -307,26 +312,16 @@ fun ChatInputBar(
             .navigationBarsPadding()
             .imePadding()
     ) {
-        // Pending attachments chips
+        // Pending attachments cards
         if (pendingAttachments.isNotEmpty()) {
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(pendingAttachments) { file ->
-                    InputChip(
-                        selected = false,
-                        onClick = {},
-                        label = { Text(file.fileName, maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                        leadingIcon = { Icon(Icons.Default.AttachFile, null, Modifier.size(16.dp)) },
-                        trailingIcon = {
-                            IconButton(
-                                onClick = { onRemoveAttachment(file) },
-                                modifier = Modifier.size(18.dp)
-                            ) {
-                                Icon(Icons.Default.Close, null, Modifier.size(14.dp))
-                            }
-                        }
+                    AttachmentCard(
+                        file = file,
+                        onRemove = { onRemoveAttachment(file) }
                     )
                 }
             }
