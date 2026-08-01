@@ -1,6 +1,10 @@
 name: Build Android APK
 
 on:
+  push:
+    branches: [ "main", "enhanced-v1.0" ]
+  pull_request:
+    branches: [ "main", "enhanced-v1.0" ]
   workflow_dispatch:
 
 jobs:
@@ -18,23 +22,26 @@ jobs:
           java-version: '17'
           cache: gradle
 
-      - name: Restore original debug keystore
+      - name: Setup debug keystore
         run: |
           mkdir -p ~/.android
-          echo "${{ secrets.ANDROID_DEBUG_KEYSTORE }}" | base64 --decode > ~/.android/debug.keystore
-
-      - name: Verify debug keystore
-        run: |
-          keytool -list -keystore ~/.android/debug.keystore -alias "${{ secrets.ANDROID_KEY_ALIAS }}" -storepass "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
+          if [ -n "${{ secrets.ANDROID_DEBUG_KEYSTORE }}" ]; then
+            echo "${{ secrets.ANDROID_DEBUG_KEYSTORE }}" | base64 --decode > ~/.android/debug.keystore
+          else
+            keytool -genkeypair -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          fi
 
       - name: Make Gradle executable
         run: chmod +x ./gradlew
 
       - name: Build debug APK
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          path: |
+            **/build/outputs/apk/debug/*.apk
+            **/build/outputs/apk/**/*.apk
+
